@@ -31,12 +31,19 @@ export class QuoteService {
     filters: {},
   ): Promise<QuoteEntity> {
     try {
-      return await this.quoteRepository.findOne({
+      const quote = await this.quoteRepository.findOne({
         relations: populate,
         where: { ...filters, quoteId: id },
       });
+      if (!quote) {
+        throw new HttpException('Cotizacion no encontrada', 404);
+      }
+      return quote;
     } catch (error) {
       console.log(error);
+      if (error.status === 404) {
+        throw new HttpException('cotizacion no encontrada.', 404);
+      }
       throw new HttpException(
         'error when trying to connect to the server',
         500,
