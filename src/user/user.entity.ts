@@ -14,7 +14,7 @@ import { QuoteEntity } from '../quote/quote.entity';
 import { RequestEntity } from '../request/request.entity';
 import { SaleEntity } from '../sale/sale.entity';
 import { InventoryActionEntity } from '../inventory-action/inventory-action.entity';
-import { PayEntity } from '../pay/pay.entity';
+import { PaymentEntity } from '../payment/payment.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -64,6 +64,6 @@ export class UserEntity {
   )
   inventoryActions: InventoryActionEntity[];
 
-  @OneToMany(() => PayEntity, (pay: PayEntity) => pay.user)
-  pays: PayEntity[];
+  @OneToMany(() => PaymentEntity, (pay: PaymentEntity) => pay.user)
+  pays: PaymentEntity[];
 }

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PayEntity } from './pay.entity';
+import { PaymentEntity } from './payment.entity';
 import { DataSource, DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { SaleEntity } from '../sale/sale.entity';
 import { RequestEntity } from '../request/request.entity';
@@ -10,10 +10,10 @@ import { RequestDetailEntity } from '../request-detail/request-detail.entity';
 import { BuyDetailEntity } from '../buy-detail/buy-detail.entity';
 
 @Injectable()
-export class PayService {
+export class PaymentService {
   constructor(
-    @InjectRepository(PayEntity)
-    private readonly payRepository: Repository<PayEntity>,
+    @InjectRepository(PaymentEntity)
+    private readonly payRepository: Repository<PaymentEntity>,
     @InjectRepository(SaleEntity)
     private readonly saleRepository: Repository<SaleEntity>,
     @InjectRepository(RequestEntity)
@@ -58,7 +58,7 @@ export class PayService {
     }
   }
 
-  async createPay(pay: PayEntity): Promise<PayEntity> {
+  async createPay(pay: PaymentEntity): Promise<PaymentEntity> {
     const queryRunner = this.datasource.createQueryRunner();
 
     await queryRunner.connect();
@@ -67,7 +67,7 @@ export class PayService {
     try {
       pay.date = new Date();
       pay.time = new Date();
-      const payResult = await queryRunner.manager.save(PayEntity, pay);
+      const payResult = await queryRunner.manager.save(PaymentEntity, pay);
 
       if (pay.type === 'S') {
         const sale = await this.saleRepository.findOne({
@@ -89,7 +89,7 @@ export class PayService {
           0,
         );
         const totalPays = sale.pays.reduce(
-          (value: number, pay: PayEntity) => value + pay.total,
+          (value: number, pay: PaymentEntity) => value + pay.total,
           pay.total,
         );
         if (totalSale === totalPays) {
@@ -121,7 +121,7 @@ export class PayService {
           0,
         );
         const totalPays = request.pays.reduce(
-          (value: number, pay: PayEntity) => value + pay.total,
+          (value: number, pay: PaymentEntity) => value + pay.total,
           pay.total,
         );
         if (totalRequest === totalPays) {
@@ -150,7 +150,7 @@ export class PayService {
           0,
         );
         const totalPays = buy.pays.reduce(
-          (value: number, pay: PayEntity) => value + pay.total,
+          (value: number, pay: PaymentEntity) => value + pay.total,
           pay.total,
         );
         console.log('total buy: ' + totalBuy);
@@ -177,7 +177,7 @@ export class PayService {
     }
   }
 
-  async updatePay(id: number, pay: PayEntity): Promise<UpdateResult> {
+  async updatePay(id: number, pay: PaymentEntity): Promise<UpdateResult> {
     try {
       return await this.payRepository.update({ payId: id }, pay);
     } catch (error) {

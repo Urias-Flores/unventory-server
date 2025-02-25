@@ -23,6 +23,9 @@ export class QuoteEntity {
   @JoinColumn({ name: 'client' })
   client: ClientEntity;
 
+  @Column({ name: 'name', type: 'varchar', length: 80 })
+  name: string;
+
   @Column({ name: 'date', type: 'date' })
   date: Date;
 

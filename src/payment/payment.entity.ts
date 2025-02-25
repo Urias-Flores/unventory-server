@@ -10,8 +10,8 @@ import { SaleEntity } from '../sale/sale.entity';
 import { RequestEntity } from '../request/request.entity';
 import { BuyEntity } from '../buy/buy.entity';
 
-@Entity('pay')
-export class PayEntity {
+@Entity('payment')
+export class PaymentEntity {
   @PrimaryGeneratedColumn({ name: 'pay_id', type: 'int' })
   payId: number;
 

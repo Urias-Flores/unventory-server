@@ -53,31 +53,16 @@ export class ProductService {
   }
 
   async createProduct(product: ProductEntity): Promise<ProductEntity> {
-    const queryRunner = await this.datasource.createQueryRunner();
+    const queryRunner = this.datasource.createQueryRunner();
 
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-      const productInventory = product.inventory[0];
+      const productInventory = product.inventory;
       delete product.inventory;
 
-      //Add our product entity
-      const productInserted: ProductEntity = await queryRunner.manager.save(
-        ProductEntity,
-        product,
-      );
-
-      if (!productInserted.productId || productInserted.productId === 0) {
-        throw new HttpException(
-          "the product can't be inserted",
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
-
       //Add a new inventory entity
-      console.log(`Product ${productInserted.productId} was created`);
-      productInventory.product = productInserted.productId;
       const inventoryInserted: InventoryEntity = await queryRunner.manager.save(
         InventoryEntity,
         productInventory,
@@ -88,7 +73,21 @@ export class ProductService {
         inventoryInserted.inventoryId === 0
       ) {
         throw new HttpException(
-          "the product can't be inserted",
+          "the product can't be inserted: Bad inventory part",
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+
+      //Add our product entity
+      product.inventory = inventoryInserted;
+      const productInserted: ProductEntity = await queryRunner.manager.save(
+        ProductEntity,
+        product,
+      );
+
+      if (!productInserted.productId || productInserted.productId === 0) {
+        throw new HttpException(
+          "the product can't be inserted: Bad entity",
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }

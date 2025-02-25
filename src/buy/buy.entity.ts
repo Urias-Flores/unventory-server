@@ -9,7 +9,7 @@ import {
 import { UserEntity } from '../user/user.entity';
 import { SupplierEntity } from '../supplier/supplier.entity';
 import { BuyDetailEntity } from '../buy-detail/buy-detail.entity';
-import { PayEntity } from '../pay/pay.entity';
+import { PaymentEntity } from '../payment/payment.entity';
 
 @Entity('buy')
 export class BuyEntity {
@@ -52,8 +52,8 @@ export class BuyEntity {
   )
   buyDetails: BuyDetailEntity[];
 
-  @OneToMany(() => PayEntity, (pay: PayEntity) => pay.buy)
-  pays: PayEntity[];
+  @OneToMany(() => PaymentEntity, (pay: PaymentEntity) => pay.buy)
+  pays: PaymentEntity[];
 
   constructor(id: number) {
     this.buyId = id;

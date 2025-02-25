@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { BalanceEntity } from '../balance/balance.entity';
 import { SaleEntity } from '../sale/sale.entity';
@@ -22,27 +23,24 @@ export class BalanceDetailEntity {
   @JoinColumn({ name: 'balance' })
   balance: BalanceEntity;
 
-  @ManyToOne(() => SaleEntity, (sale: SaleEntity) => sale.balanceDetails)
-  @JoinColumn({ name: 'sale' })
+  @OneToOne(() => SaleEntity, (sale: SaleEntity) => sale.balanceDetail)
   sale: SaleEntity;
 
-  @ManyToOne(
+  @OneToOne(
     () => RequestEntity,
-    (request: RequestEntity) => request.balanceDetails,
+    (request: RequestEntity) => request.balanceDetail,
   )
-  @JoinColumn({ name: 'request' })
   request: RequestEntity;
 
-  @ManyToOne(
+  @OneToOne(
     () => ExpenseEntity,
     (expense: ExpenseEntity) => expense.balanceDetails,
   )
-  @JoinColumn({ name: 'expense' })
   expense: ExpenseEntity;
 
   @Column({ name: 'cash', type: 'int' })
   cash: number;
 
-  @Column({ name: 'change', type: 'int' })
+  @Column({ name: 'change', type: 'double' })
   change: number;
 }

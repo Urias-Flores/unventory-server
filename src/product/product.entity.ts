@@ -4,8 +4,8 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  JoinColumn,
-} from 'typeorm';
+  JoinColumn, OneToOne
+} from "typeorm";
 import { CategoryEntity } from '../category/category.entity';
 import { BrandEntity } from '../brand/brand.entity';
 import { BuyDetailEntity } from '../buy-detail/buy-detail.entity';
@@ -49,10 +49,11 @@ export class ProductEntity {
   @Column({ name: 'sale_price', type: 'double' })
   salePrice: number;
 
-  @OneToMany(
+  @OneToOne(
     () => InventoryEntity,
     (inventory: InventoryEntity) => inventory.product,
   )
+  @JoinColumn({ name: 'inventory' })
   inventory: InventoryEntity;
 
   @OneToMany(

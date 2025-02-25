@@ -3,8 +3,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  OneToMany,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { BalanceDetailEntity } from '../balance-detail/balance-detail.entity';
@@ -30,9 +30,10 @@ export class ExpenseEntity {
   @Column({ name: 'total', type: 'double' })
   total: number;
 
-  @OneToMany(
+  @OneToOne(
     () => BalanceDetailEntity,
     (balanceDetail: BalanceDetailEntity) => balanceDetail.sale,
   )
+  @JoinColumn({ name: 'balance_detail' })
   balanceDetails: BalanceDetailEntity[];
 }

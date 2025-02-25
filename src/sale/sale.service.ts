@@ -1,10 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SaleEntity } from './sale.entity';
 import { DataSource, DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { SaleDetailEntity } from '../sale-detail/sale-detail.entity';
 import { InventoryEntity } from '../inventory/inventory.entity';
-import { ProductEntity } from "../product/product.entity";
+import { ProductEntity } from '../product/product.entity';
+import { BalanceDetailEntity } from '../balance-detail/balance-detail.entity';
 
 @Injectable()
 export class SaleService {
@@ -16,7 +17,7 @@ export class SaleService {
     private readonly datasource: DataSource,
   ) {}
 
-  async findAllSales(populate: [], filters: {}): Promise<SaleEntity[]> {
+  async findAllSales(populate: [], filters: any): Promise<SaleEntity[]> {
     try {
       return await this.saleRepository.find({
         relations: populate,
@@ -32,7 +33,7 @@ export class SaleService {
   async findSaleById(
     id: number,
     populate: [],
-    filters: {},
+    filters: any,
   ): Promise<SaleEntity> {
     try {
       return await this.saleRepository.findOne({
@@ -53,9 +54,24 @@ export class SaleService {
 
     const saleDetails = sale.saleDetails;
     delete sale.saleDetails;
+
+    const balanceDetail = sale.balanceDetail;
+    delete sale.balanceDetail;
+
     try {
       sale.date = new Date();
       sale.time = new Date();
+
+      const savedBalanceDetail = await queryRunner.manager.save(
+        BalanceDetailEntity,
+        balanceDetail,
+      );
+
+      if (!savedBalanceDetail.balanceDetailId) {
+        throw new HttpException('error when trying to save balance', 500);
+      }
+
+      sale.balanceDetail = savedBalanceDetail;
       const savedSale: SaleEntity = await queryRunner.manager.save(
         SaleEntity,
         sale,
@@ -74,7 +90,9 @@ export class SaleService {
         );
 
         const inventory = await this.inventoryRepository.findOne({
-          where: { product: new ProductEntity(Number(savedSaleDetail.product)) },
+          where: {
+            product: new ProductEntity(Number(savedSaleDetail.product)),
+          },
         });
 
         console.log(inventory);

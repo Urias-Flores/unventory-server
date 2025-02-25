@@ -33,7 +33,7 @@ import { RequestModule } from './request/request.module';
 import { RequestDetailModule } from './request-detail/request-detail.module';
 import { SaleModule } from './sale/sale.module';
 import { SaleDetailModule } from './sale-detail/sale-detail.module';
-import { PayModule } from './pay/pay.module';
+import { PaymentModule } from './payment/payment.module';
 import { BalanceEntity } from './balance/balance.entity';
 import { BalanceDetailEntity } from './balance-detail/balance-detail.entity';
 import { BrandEntity } from './brand/brand.entity';
@@ -45,7 +45,7 @@ import { ConfigurationEntity } from './configuration/configuration.entity';
 import { ExpenseEntity } from './expense/expense.entity';
 import { InventoryEntity } from './inventory/inventory.entity';
 import { NotificationEntity } from './notification/notification.entity';
-import { PayEntity } from './pay/pay.entity';
+import { PaymentEntity } from './payment/payment.entity';
 import { ProductEntity } from './product/product.entity';
 import { QuoteEntity } from './quote/quote.entity';
 import { QuoteDetailEntity } from './quote-detail/quote-detail.entity';
@@ -83,7 +83,7 @@ import { UtilitiesModule } from './_utilities/_utilities.module';
           InventoryEntity,
           InventoryActionEntity,
           NotificationEntity,
-          PayEntity,
+          PaymentEntity,
           ProductEntity,
           QuoteEntity,
           QuoteDetailEntity,
@@ -112,7 +112,7 @@ import { UtilitiesModule } from './_utilities/_utilities.module';
     InventoryModule,
     InventoryActionModule,
     NotificationModule,
-    PayModule,
+    PaymentModule,
     ProductModule,
     QuoteModule,
     QuoteDetailModule,

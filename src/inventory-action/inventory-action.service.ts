@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { InventoryActionEntity } from './inventory-action.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InventoryEntity } from '../inventory/inventory.entity';
+import { ProductEntity } from '../product/product.entity';
 
 @Injectable()
 export class InventoryActionService {
@@ -11,11 +12,13 @@ export class InventoryActionService {
     private readonly inventoryActionRepository: Repository<InventoryActionEntity>,
     @InjectRepository(InventoryEntity)
     private readonly inventoryRepository: Repository<InventoryEntity>,
+    @InjectRepository(ProductEntity)
+    private readonly productRepository: Repository<ProductEntity>,
   ) {}
 
   async findAllInventoryActions(
     populate: [],
-    filters: {},
+    filters: any,
   ): Promise<InventoryActionEntity[]> {
     try {
       return await this.inventoryActionRepository.find({
@@ -34,7 +37,7 @@ export class InventoryActionService {
   async findInventoryActionById(
     id: number,
     populate: [],
-    filters: {},
+    filters: any,
   ): Promise<InventoryActionEntity> {
     const filtersWithId = { ...filters, inventoryActionId: id };
     try {
@@ -66,9 +69,15 @@ export class InventoryActionService {
         );
       }
 
+      const updatingProduct: ProductEntity =
+        await this.productRepository.findOne({
+          where: { productId: Number(inventoryAction.product) },
+          relations: ['inventory'],
+        });
+
       await this.inventoryRepository.update(
         {
-          product: inventoryAction.product,
+          inventoryId: updatingProduct.inventory.inventoryId,
         },
         {
           amount:
