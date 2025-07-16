@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Query } from '@nestjs/common';
-import { UpdateResult, DeleteResult } from "typeorm";
-import { ClientService } from "./client.service";
-import { ClientEntity } from "./client.entity";
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  Query,
+} from '@nestjs/common';
+import { UpdateResult, DeleteResult } from 'typeorm';
+import { ClientService } from './client.service';
+import { ClientEntity } from './client.entity';
 
 @Controller('clients')
 export class ClientController {
@@ -15,7 +24,10 @@ export class ClientController {
   }
 
   @Get(':id')
-  async findClientById(@Param('id') id: number, @Query() params: string | any): Promise<any> {
+  async findClientById(
+    @Param('id') id: number,
+    @Query() params: string | any,
+  ): Promise<any> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return await this.clientService.findClientById(id, parsedPopulate, params);
@@ -27,7 +39,10 @@ export class ClientController {
   }
 
   @Put(':id')
-  async updateClient(@Param('id') id: number, @Body() client: ClientEntity): Promise<UpdateResult> {
+  async updateClient(
+    @Param('id') id: number,
+    @Body() client: ClientEntity,
+  ): Promise<UpdateResult> {
     return await this.clientService.updateClient(id, client);
   }
 

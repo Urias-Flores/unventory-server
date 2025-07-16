@@ -40,6 +40,6 @@ export class PaymentEntity {
   @JoinColumn({ name: 'buy' })
   buy: BuyEntity;
 
-  @Column({ name: 'total', type: 'double' })
+  @Column({ name: 'total', type: 'float' })
   total: number;
 }

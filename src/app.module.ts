@@ -63,7 +63,7 @@ import { UtilitiesModule } from './_utilities/_utilities.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configServices: ConfigService) => ({
-        type: 'mysql',
+        type: 'postgres',
         host: configServices.get('DB_HOST'),
         port: configServices.get('DB_PORT'),
         username: configServices.get('DB_USER'),

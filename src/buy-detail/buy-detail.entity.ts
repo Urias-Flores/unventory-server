@@ -23,15 +23,15 @@ export class BuyDetailEntity {
   @JoinColumn({ name: 'product' })
   product: ProductEntity;
 
-  @Column({ name: 'amount', type: 'double' })
+  @Column({ name: 'amount', type: 'float' })
   amount: number;
 
-  @Column({ name: 'price', type: 'double' })
+  @Column({ name: 'price', type: 'float' })
   price: number;
 
-  @Column({ name: 'isv', type: 'double' })
+  @Column({ name: 'isv', type: 'float' })
   isv: number;
 
-  @Column({ name: 'discount', type: 'double' })
+  @Column({ name: 'discount', type: 'float' })
   discount: number;
 }

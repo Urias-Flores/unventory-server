@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Put, Delete, Param, Query, Body } from '@nestjs/common';
-import { QuoteService } from "./quote.service";
-import { UtilitiesService } from "../_utilities/_utilities.service";
-import { QuoteEntity } from "./quote.entity";
-import { DeleteResult, UpdateResult } from "typeorm";
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Query,
+  Body,
+} from '@nestjs/common';
+import { QuoteService } from './quote.service';
+import { UtilitiesService } from '../_utilities/_utilities.service';
+import { QuoteEntity } from './quote.entity';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Controller('quotes')
 export class QuoteController {
@@ -12,14 +21,19 @@ export class QuoteController {
   ) {}
 
   @Get()
-  async findAllQuotes(@Query() variables: any): Promise<QuoteEntity[]>{
-    const { populate, filters } = this.utilitiesService.handlePopulate(variables);
+  async findAllQuotes(@Query() variables: any): Promise<QuoteEntity[]> {
+    const { populate, filters } =
+      this.utilitiesService.handlePopulate(variables);
     return await this.quoteService.findAllQuotes(populate, filters);
   }
 
   @Get(':id')
-  async findQuoteById(@Param('id') id: number, @Query() variables: any): Promise<QuoteEntity> {
-    const { populate, filters } = this.utilitiesService.handlePopulate(variables);
+  async findQuoteById(
+    @Param('id') id: number,
+    @Query() variables: any,
+  ): Promise<QuoteEntity> {
+    const { populate, filters } =
+      this.utilitiesService.handlePopulate(variables);
     return await this.quoteService.findQuoteById(id, populate, filters);
   }
 
@@ -29,7 +43,10 @@ export class QuoteController {
   }
 
   @Put(':id')
-  async updateQuote(@Param('id') id: number, @Body() quote: QuoteEntity): Promise<UpdateResult> {
+  async updateQuote(
+    @Param('id') id: number,
+    @Body() quote: QuoteEntity,
+  ): Promise<UpdateResult> {
     return await this.quoteService.updateQuote(id, quote);
   }
 

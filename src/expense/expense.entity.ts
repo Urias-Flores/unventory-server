@@ -27,7 +27,7 @@ export class ExpenseEntity {
   @Column({ name: 'description', type: 'varchar', length: 60 })
   description: string;
 
-  @Column({ name: 'total', type: 'double' })
+  @Column({ name: 'total', type: 'float' })
   total: number;
 
   @OneToOne(

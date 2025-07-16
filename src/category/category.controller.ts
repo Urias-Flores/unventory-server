@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, Post, Put, Delete, Query } from "@nestjs/common";
-import { CategoryService } from "./category.service";
-import { CategoryEntity } from "./category.entity";
-import { UpdateResult } from "typeorm";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Delete,
+  Query,
+} from '@nestjs/common';
+import { CategoryService } from './category.service';
+import { CategoryEntity } from './category.entity';
+import { UpdateResult } from 'typeorm';
 
 @Controller('categories')
 export class CategoryController {
@@ -15,19 +24,27 @@ export class CategoryController {
   }
 
   @Get(':id')
-  async findCategoryById(@Param('id') id: number, @Query() params: any): Promise<CategoryEntity> {
+  async findCategoryById(
+    @Param('id') id: number,
+    @Query() params: any,
+  ): Promise<CategoryEntity> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return this.categoryService.findCategoryById(id, parsedPopulate, params);
   }
 
   @Post()
-  async createCategory(@Body() category: CategoryEntity): Promise<CategoryEntity> {
+  async createCategory(
+    @Body() category: CategoryEntity,
+  ): Promise<CategoryEntity> {
     return this.categoryService.createCategory(category);
   }
 
   @Put(':id')
-  async updateCategory(@Param('id') id: number, @Body() category: CategoryEntity): Promise<UpdateResult> {
+  async updateCategory(
+    @Param('id') id: number,
+    @Body() category: CategoryEntity,
+  ): Promise<UpdateResult> {
     return this.categoryService.updateCategory(id, category);
   }
 

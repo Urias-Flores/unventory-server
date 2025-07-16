@@ -26,7 +26,7 @@ export class ClientEntity {
   @Column({ name: 'address', type: 'varchar', length: 300, nullable: true })
   address: string;
 
-  @Column({ name: 'balance', type: 'double', default: 0 })
+  @Column({ name: 'balance', type: 'float', default: 0 })
   balance: number;
 
   @OneToMany(() => QuoteEntity, (quote: QuoteEntity) => quote.client)

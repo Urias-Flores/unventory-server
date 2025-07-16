@@ -1,7 +1,12 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { BrandEntity } from './brand.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, QueryFailedError, Repository, UpdateResult } from "typeorm";
+import {
+  DeleteResult,
+  QueryFailedError,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 
 @Injectable()
 export class BrandService {

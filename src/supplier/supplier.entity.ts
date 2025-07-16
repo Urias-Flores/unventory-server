@@ -24,7 +24,7 @@ export class SupplierEntity {
   @Column({ name: 'phone', type: 'varchar', length: 20, nullable: true })
   phone: string;
 
-  @Column({ name: 'balance', type: 'double', default: 0 })
+  @Column({ name: 'balance', type: 'float', default: 0 })
   balance: number;
 
   @OneToMany(() => BuyEntity, (buy: BuyEntity) => buy.supplier)

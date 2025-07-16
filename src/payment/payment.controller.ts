@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Put, Delete, Param, Query, Body } from '@nestjs/common';
-import { PaymentService } from "./payment.service";
-import { PaymentEntity } from "./payment.entity";
-import { DeleteResult, UpdateResult } from "typeorm";
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Query,
+  Body,
+} from '@nestjs/common';
+import { PaymentService } from './payment.service';
+import { PaymentEntity } from './payment.entity';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Controller('pays')
 export class PaymentController {
@@ -15,7 +24,10 @@ export class PaymentController {
   }
 
   @Get(':id')
-  async findPayById(@Param('id') id: number, @Query() variables: any): Promise<PaymentEntity> {
+  async findPayById(
+    @Param('id') id: number,
+    @Query() variables: any,
+  ): Promise<PaymentEntity> {
     const populate = variables.populate ? variables.populate.split(',') : [];
     delete variables.populate;
     return await this.payService.findPayById(id, populate, variables);
@@ -27,7 +39,10 @@ export class PaymentController {
   }
 
   @Put(':id')
-  async updatePay(@Param('id') id: number, @Body() pay: PaymentEntity): Promise<UpdateResult> {
+  async updatePay(
+    @Param('id') id: number,
+    @Body() pay: PaymentEntity,
+  ): Promise<UpdateResult> {
     return await this.payService.updatePay(id, pay);
   }
 

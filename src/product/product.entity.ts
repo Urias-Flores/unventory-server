@@ -4,8 +4,9 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  JoinColumn, OneToOne
-} from "typeorm";
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
 import { CategoryEntity } from '../category/category.entity';
 import { BrandEntity } from '../brand/brand.entity';
 import { BuyDetailEntity } from '../buy-detail/buy-detail.entity';
@@ -43,10 +44,10 @@ export class ProductEntity {
   @Column({ name: 'min_amount', type: 'int' })
   minAmount: number;
 
-  @Column({ name: 'buy_price', type: 'double' })
+  @Column({ name: 'buy_price', type: 'float' })
   buyPrice: number;
 
-  @Column({ name: 'sale_price', type: 'double' })
+  @Column({ name: 'sale_price', type: 'float' })
   salePrice: number;
 
   @OneToOne(

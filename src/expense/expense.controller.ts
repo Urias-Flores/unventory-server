@@ -1,21 +1,33 @@
-import { Controller, Get, Post, Put, Delete, Param, Query, Body } from '@nestjs/common';
-import { ExpenseService } from "./expense.service";
-import { ExpenseEntity } from "./expense.entity";
-import { DeleteResult, UpdateResult } from "typeorm";
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Query,
+  Body,
+} from '@nestjs/common';
+import { ExpenseService } from './expense.service';
+import { ExpenseEntity } from './expense.entity';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Controller('expenses')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
 
   @Get()
-  async findAllExpenses(@Query() params: any){
+  async findAllExpenses(@Query() params: any) {
     const populate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return this.expenseService.findAllExpenses(populate, params);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number, @Query() params: any): Promise<ExpenseEntity> {
+  async findOne(
+    @Param('id') id: number,
+    @Query() params: any,
+  ): Promise<ExpenseEntity> {
     const populate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return await this.expenseService.findExpenseById(id, populate, params);
@@ -30,7 +42,10 @@ export class ExpenseController {
   }
 
   @Put(':id')
-  async updateExpense(@Param('id') id: number, @Body() expense: ExpenseEntity): Promise<UpdateResult> {
+  async updateExpense(
+    @Param('id') id: number,
+    @Body() expense: ExpenseEntity,
+  ): Promise<UpdateResult> {
     return await this.expenseService.updateExpense(id, expense);
   }
 

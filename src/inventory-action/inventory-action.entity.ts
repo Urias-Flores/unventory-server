@@ -36,9 +36,9 @@ export class InventoryActionEntity {
   @Column({ name: 'action', type: 'varchar', length: 1 })
   action: string;
 
-  @Column({ name: 'previous_amount', type: 'double' })
+  @Column({ name: 'previous_amount', type: 'float' })
   previousAmount: number;
 
-  @Column({ name: 'modified_amount', type: 'double' })
+  @Column({ name: 'modified_amount', type: 'float' })
   modifiedAmount: number;
 }

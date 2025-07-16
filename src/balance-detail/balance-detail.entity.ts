@@ -41,6 +41,6 @@ export class BalanceDetailEntity {
   @Column({ name: 'cash', type: 'int' })
   cash: number;
 
-  @Column({ name: 'change', type: 'double' })
+  @Column({ name: 'change', type: 'float' })
   change: number;
 }
