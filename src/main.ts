@@ -5,7 +5,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://comercial-nataren.netlify.app/'],
+    origin: ['http://localhost:3000', 'https://comercialnataren.com/'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: 'Content-type, Authorization',
     credentials: true,
