@@ -12,7 +12,9 @@ import { ProductService } from './product.service';
 import { ProductEntity } from './product.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { UtilitiesService } from '../_utilities/_utilities.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Product')
 @Controller('products')
 export class ProductController {
   constructor(

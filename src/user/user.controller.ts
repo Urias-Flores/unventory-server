@@ -12,7 +12,9 @@ import { UserService } from './user.service';
 import { UtilitiesService } from '../_utilities/_utilities.service';
 import { UserEntity } from './user.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('users')
 export class UserController {
   constructor(

@@ -11,7 +11,9 @@ import {
 import { ExpenseService } from './expense.service';
 import { ExpenseEntity } from './expense.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Expense')
 @Controller('expenses')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}

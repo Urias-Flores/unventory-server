@@ -8,10 +8,12 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CategoryEntity } from './category.entity';
 import { UpdateResult } from 'typeorm';
 
+@ApiTags('Category')
 @Controller('categories')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}

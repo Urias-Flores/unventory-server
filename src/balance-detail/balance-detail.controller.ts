@@ -11,7 +11,9 @@ import {
 import { BalanceDetailService } from './balance-detail.service';
 import { BalanceDetailEntity } from './balance-detail.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Balance Detail')
 @Controller('balance-details')
 export class BalanceDetailController {
   constructor(private readonly balanceDetailService: BalanceDetailService) {}

@@ -11,7 +11,9 @@ import {
 import { InventoryActionEntity } from './inventory-action.entity';
 import { InventoryActionService } from './inventory-action.service';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Inventory Action')
 @Controller('inventory-actions')
 export class InventoryActionController {
   constructor(

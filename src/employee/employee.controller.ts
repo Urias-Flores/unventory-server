@@ -11,7 +11,9 @@ import {
 import { EmployeeService } from './employee.service';
 import { EmployeeEntity } from './employee.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Employee')
 @Controller('employees')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}

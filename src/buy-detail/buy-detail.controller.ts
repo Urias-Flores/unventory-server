@@ -11,7 +11,9 @@ import {
 import { BuyDetailService } from './buy-detail.service';
 import { BuyDetailEntity } from './buy-detail.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Buy Detail')
 @Controller('buy-details')
 export class BuyDetailController {
   constructor(private readonly buyDetailService: BuyDetailService) {}
