@@ -12,7 +12,9 @@ import { SupplierService } from './supplier.service';
 import { UtilitiesService } from '../_utilities/_utilities.service';
 import { SupplierEntity } from './supplier.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Supplier')
 @Controller('suppliers')
 export class SupplierController {
   constructor(

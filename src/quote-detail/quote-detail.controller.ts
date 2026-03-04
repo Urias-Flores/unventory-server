@@ -12,7 +12,9 @@ import { QuoteDetailService } from './quote-detail.service';
 import { UtilitiesService } from '../_utilities/_utilities.service';
 import { QuoteDetailEntity } from './quote-detail.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Quote Detail')
 @Controller('quote-details')
 export class QuoteDetailController {
   constructor(

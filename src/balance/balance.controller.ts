@@ -8,11 +8,13 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { BalanceService } from './balance.service';
 import { BalanceEntity } from './balance.entity';
 
-@Controller('balances')
+@ApiTags('Balance')
+@Controller('balance')
 export class BalanceController {
   constructor(private readonly balanceService: BalanceService) {}
 

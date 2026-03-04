@@ -12,7 +12,9 @@ import { RequestDetailService } from './request-detail.service';
 import { UtilitiesService } from '../_utilities/_utilities.service';
 import { RequestDetailEntity } from './request-detail.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Request Detail')
 @Controller('request-details')
 export class RequestDetailController {
   constructor(

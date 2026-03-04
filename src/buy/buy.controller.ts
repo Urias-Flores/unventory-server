@@ -9,9 +9,11 @@ import {
   Body,
 } from '@nestjs/common';
 import { UpdateResult, DeleteResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 import { BuyService } from './buy.service';
 import { BuyEntity } from './buy.entity';
 
+@ApiTags('Buy')
 @Controller('buys')
 export class BuyController {
   constructor(private readonly buyService: BuyService) {}

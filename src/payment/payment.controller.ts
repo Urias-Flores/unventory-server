@@ -11,7 +11,9 @@ import {
 import { PaymentService } from './payment.service';
 import { PaymentEntity } from './payment.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Payment')
 @Controller('pays')
 export class PaymentController {
   constructor(private readonly payService: PaymentService) {}

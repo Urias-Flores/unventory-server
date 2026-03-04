@@ -11,7 +11,9 @@ import {
 import { InventoryService } from './inventory.service';
 import { InventoryEntity } from './inventory.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Inventory')
 @Controller('inventory')
 export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}

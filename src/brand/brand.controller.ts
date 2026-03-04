@@ -2,16 +2,18 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Put,
-  Delete,
-  Param,
   Query,
+  Delete,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { BrandService } from './brand.service';
 import { BrandEntity } from './brand.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
+@ApiTags('Brand')
 @Controller('brands')
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}

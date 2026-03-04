@@ -9,9 +9,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { UpdateResult, DeleteResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 import { ClientService } from './client.service';
 import { ClientEntity } from './client.entity';
 
+@ApiTags('Client')
 @Controller('clients')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}

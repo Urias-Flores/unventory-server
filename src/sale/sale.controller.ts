@@ -12,7 +12,9 @@ import { SaleService } from './sale.service';
 import { SaleEntity } from './sale.entity';
 import { UtilitiesService } from '../_utilities/_utilities.service';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Sale')
 @Controller('sales')
 export class SaleController {
   constructor(
