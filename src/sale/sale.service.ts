@@ -17,7 +17,10 @@ export class SaleService {
     private readonly datasource: DataSource,
   ) {}
 
-  async findAllSales(populate: [], filters: any): Promise<SaleEntity[]> {
+  async findAllSales(
+    populate: string[],
+    filters: object,
+  ): Promise<SaleEntity[]> {
     try {
       return await this.saleRepository.find({
         relations: populate,
@@ -32,8 +35,8 @@ export class SaleService {
 
   async findSaleById(
     id: number,
-    populate: [],
-    filters: any,
+    populate: string[],
+    filters: object,
   ): Promise<SaleEntity> {
     try {
       return await this.saleRepository.findOne({

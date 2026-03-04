@@ -21,7 +21,9 @@ export class SaleController {
   ) {}
 
   @Get()
-  async getAllSales(@Query() variables: any): Promise<SaleEntity[]> {
+  async getAllSales(
+    @Query() variables: Record<string, string>,
+  ): Promise<SaleEntity[]> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.saleService.findAllSales(populate, filters);
   }
@@ -29,7 +31,7 @@ export class SaleController {
   @Get(':id')
   async getSaleById(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<SaleEntity> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.saleService.findSaleById(id, populate, filters);

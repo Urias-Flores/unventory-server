@@ -17,8 +17,10 @@ export class BalanceController {
   constructor(private readonly balanceService: BalanceService) {}
 
   @Get()
-  async findAllBalances(@Query() params: string | any): Promise<any> {
-    const parsedPopulate: [] = params.populate
+  async findAllBalances(
+    @Query() params: Record<string, string>,
+  ): Promise<BalanceEntity[]> {
+    const parsedPopulate: string[] = params.populate
       ? params.populate.split(',')
       : [];
     delete params.populate;
@@ -28,9 +30,9 @@ export class BalanceController {
   @Get(':id')
   async findBalanceById(
     @Param('id') id: number,
-    @Query() params: string | any,
-  ): Promise<any> {
-    const parsedPopulate: [] = params.populate
+    @Query() params: Record<string, string>,
+  ): Promise<BalanceEntity> {
+    const parsedPopulate: string[] = params.populate
       ? params.populate.split(',')
       : [];
     delete params.populate;

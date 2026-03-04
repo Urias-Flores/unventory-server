@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UtilitiesService {
-  handlePopulate(variables: any): { populate: []; filters: {} } {
+  handlePopulate(variables: Record<string, string>): {
+    populate: string[];
+    filters: Record<string, string>;
+  } {
     const parsedPopulate = variables.populate
       ? variables.populate.split(',')
       : [];

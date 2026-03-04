@@ -17,8 +17,10 @@ export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
   @Get()
-  async findAllBrand(@Query() params: string | any): Promise<BrandEntity[]> {
-    const parsedPopulate: [] = params.populate
+  async findAllBrand(
+    @Query() params: Record<string, string>,
+  ): Promise<BrandEntity[]> {
+    const parsedPopulate: string[] = params.populate
       ? params.populate.split(',')
       : [];
     delete params.populate;
@@ -28,9 +30,9 @@ export class BrandController {
   @Get(':id')
   async findBrandById(
     @Param('id') id: number,
-    @Query() params: string | any,
+    @Query() params: Record<string, string>,
   ): Promise<BrandEntity> {
-    const parsedPopulate: [] = params.populate
+    const parsedPopulate: string[] = params.populate
       ? params.populate.split(',')
       : [];
     delete params.populate;

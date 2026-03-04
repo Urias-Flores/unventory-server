@@ -11,8 +11,8 @@ export class BuyDetailService {
   ) {}
 
   async findAllBuyDetails(
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<BuyDetailEntity[]> {
     try {
       return await this.buyDetailRepository.find({
@@ -30,8 +30,8 @@ export class BuyDetailService {
 
   async findBuyDetailById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<BuyDetailEntity> {
     const filtersWithId = { ...filters, buyDetailId: id };
     try {

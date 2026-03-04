@@ -21,7 +21,9 @@ export class ProductController {
   ) {}
 
   @Get()
-  async findAll(@Query() variables: any): Promise<ProductEntity[]> {
+  async findAll(
+    @Query() variables: Record<string, string>,
+  ): Promise<ProductEntity[]> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.productService.findAllProducts(populate, filters);
   }
@@ -29,7 +31,7 @@ export class ProductController {
   @Get(':id')
   async findProductById(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<ProductEntity> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.productService.findProductById(id, populate, filters);

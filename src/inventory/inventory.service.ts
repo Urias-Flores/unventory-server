@@ -11,8 +11,8 @@ export class InventoryService {
   ) {}
 
   async findAllInventory(
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<InventoryEntity[]> {
     try {
       return await this.inventoryRepository.find({
@@ -30,8 +30,8 @@ export class InventoryService {
 
   async findInventoryById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<InventoryEntity> {
     const filtersWithId = { ...filters, inventoryId: id };
     try {

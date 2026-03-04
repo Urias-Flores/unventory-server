@@ -21,7 +21,9 @@ export class RequestController {
   ) {}
 
   @Get()
-  async findAllRequests(@Query() variables: any): Promise<RequestEntity[]> {
+  async findAllRequests(
+    @Query() variables: Record<string, string>,
+  ): Promise<RequestEntity[]> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.requestService.findAllRequests(populate, filters);
   }
@@ -29,7 +31,7 @@ export class RequestController {
   @Get(':id')
   async findOne(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<RequestEntity> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.requestService.findRequestById(id, populate, filters);

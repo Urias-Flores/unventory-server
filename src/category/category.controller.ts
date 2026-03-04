@@ -17,7 +17,9 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
-  async findAllCategories(@Query() params: any): Promise<CategoryEntity[]> {
+  async findAllCategories(
+    @Query() params: Record<string, string>,
+  ): Promise<CategoryEntity[]> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return this.categoryService.findAllCategories(parsedPopulate, params);
@@ -26,7 +28,7 @@ export class CategoryController {
   @Get(':id')
   async findCategoryById(
     @Param('id') id: number,
-    @Query() params: any,
+    @Query() params: Record<string, string>,
   ): Promise<CategoryEntity> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;

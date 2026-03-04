@@ -22,7 +22,7 @@ export class RequestDetailController {
 
   @Get()
   async findAllRequestDetails(
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<RequestDetailEntity[]> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.requestDetailService.findAllRequestDetails(
@@ -34,7 +34,7 @@ export class RequestDetailController {
   @Get(':id')
   async findRequestDetailById(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<RequestDetailEntity> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.requestDetailService.findRequestDetailById(

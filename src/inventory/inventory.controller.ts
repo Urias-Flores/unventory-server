@@ -7,8 +7,6 @@ import {
   Param,
   Query,
   Body,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
 import { InventoryEntity } from './inventory.entity';
@@ -19,7 +17,9 @@ export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}
 
   @Get()
-  async findAllInventory(@Query() params: any): Promise<InventoryEntity[]> {
+  async findAllInventory(
+    @Query() params: Record<string, string>,
+  ): Promise<InventoryEntity[]> {
     const populate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return this.inventoryService.findAllInventory(populate, params);
@@ -28,7 +28,7 @@ export class InventoryController {
   @Get(':id')
   async findInventoryById(
     @Param('id') id: number,
-    @Query() params: any,
+    @Query() params: Record<string, string>,
   ): Promise<InventoryEntity> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;

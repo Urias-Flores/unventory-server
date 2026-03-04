@@ -10,7 +10,10 @@ export class ClientService {
     private readonly clientRepository: Repository<ClientEntity>,
   ) {}
 
-  async findAllClients(populate: [], filters: {}): Promise<ClientEntity[]> {
+  async findAllClients(
+    populate: string[],
+    filters: object,
+  ): Promise<ClientEntity[]> {
     try {
       return await this.clientRepository.find({
         relations: populate,
@@ -28,8 +31,8 @@ export class ClientService {
 
   async findClientById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<ClientEntity> {
     const filtersWithId = { ...filters, clientId: id };
     try {

@@ -21,7 +21,9 @@ export class QuoteController {
   ) {}
 
   @Get()
-  async findAllQuotes(@Query() variables: any): Promise<QuoteEntity[]> {
+  async findAllQuotes(
+    @Query() variables: Record<string, string>,
+  ): Promise<QuoteEntity[]> {
     const { populate, filters } =
       this.utilitiesService.handlePopulate(variables);
     return await this.quoteService.findAllQuotes(populate, filters);
@@ -30,7 +32,7 @@ export class QuoteController {
   @Get(':id')
   async findQuoteById(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<QuoteEntity> {
     const { populate, filters } =
       this.utilitiesService.handlePopulate(variables);

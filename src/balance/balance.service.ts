@@ -10,7 +10,10 @@ export class BalanceService {
     private readonly balanceRepository: Repository<BalanceEntity>,
   ) {}
 
-  async findAllBalances(populate: [], filters: {}): Promise<BalanceEntity[]> {
+  async findAllBalances(
+    populate: string[],
+    filters: object,
+  ): Promise<BalanceEntity[]> {
     try {
       return await this.balanceRepository.find({
         relations: populate,
@@ -27,8 +30,8 @@ export class BalanceService {
 
   async findBalanceById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<BalanceEntity> {
     const paramsWithId = { ...filters, balanceId: id };
     try {

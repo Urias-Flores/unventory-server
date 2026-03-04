@@ -11,15 +11,16 @@ import {
 import { BuyDetailService } from './buy-detail.service';
 import { BuyDetailEntity } from './buy-detail.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { filter } from 'rxjs';
 
 @Controller('buy-details')
 export class BuyDetailController {
   constructor(private readonly buyDetailService: BuyDetailService) {}
 
   @Get()
-  async findAllBuyDetails(@Query() params: any): Promise<BuyDetailEntity[]> {
-    const parsedPopulate: [] = params.populate
+  async findAllBuyDetails(
+    @Query() params: Record<string, string>,
+  ): Promise<BuyDetailEntity[]> {
+    const parsedPopulate: string[] = params.populate
       ? params.populate.split(',')
       : [];
     delete params.populate;
@@ -32,9 +33,9 @@ export class BuyDetailController {
   @Get(':id')
   async findBuyDetailById(
     @Param('id') id: number,
-    @Query() params: string | any,
+    @Query() params: Record<string, string>,
   ): Promise<BuyDetailEntity> {
-    const parsedPopulate: [] = params.populate
+    const parsedPopulate: string[] = params.populate
       ? params.populate.split(',')
       : [];
     delete params.populate;

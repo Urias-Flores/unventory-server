@@ -11,8 +11,8 @@ export class BalanceDetailService {
   ) {}
 
   async findAllBalanceDetail(
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<BalanceDetailEntity[]> {
     try {
       return await this.balanceDetailRepository.find({
@@ -30,8 +30,8 @@ export class BalanceDetailService {
 
   async findBalanceById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<BalanceDetailEntity> {
     const paramsWithId = { ...filters, balanceDetailId: id };
     try {

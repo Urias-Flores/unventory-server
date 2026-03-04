@@ -17,7 +17,10 @@ export class RequestService {
     private readonly datasource: DataSource,
   ) {}
 
-  async findAllRequests(populate: [], filters: any): Promise<RequestEntity[]> {
+  async findAllRequests(
+    populate: string[],
+    filters: object,
+  ): Promise<RequestEntity[]> {
     try {
       return await this.requestRepository.find({
         relations: populate,
@@ -35,8 +38,8 @@ export class RequestService {
 
   async findRequestById(
     id: number,
-    populate: [],
-    filters: any,
+    populate: string[],
+    filters: object,
   ): Promise<RequestEntity> {
     try {
       return await this.requestRepository.findOne({

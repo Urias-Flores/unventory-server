@@ -17,7 +17,9 @@ export class PaymentController {
   constructor(private readonly payService: PaymentService) {}
 
   @Get()
-  async findAllPays(@Query() variables: any): Promise<PaymentEntity[]> {
+  async findAllPays(
+    @Query() variables: Record<string, string>,
+  ): Promise<PaymentEntity[]> {
     const populate = variables.populate ? variables.populate.split(',') : [];
     delete variables.populate;
     return await this.payService.findAllPays(populate, variables);
@@ -26,7 +28,7 @@ export class PaymentController {
   @Get(':id')
   async findPayById(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<PaymentEntity> {
     const populate = variables.populate ? variables.populate.split(',') : [];
     delete variables.populate;

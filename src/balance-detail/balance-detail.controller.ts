@@ -18,9 +18,11 @@ export class BalanceDetailController {
 
   @Get()
   async findAllBalanceDetail(
-    @Query() params: string | any,
+    @Query() params: Record<string, string>,
   ): Promise<BalanceDetailEntity[]> {
-    const parsedPopulate: [] = params.populate ? params.split(',') : [];
+    const parsedPopulate: string[] = params.populate
+      ? params.populate.split(',')
+      : [];
     delete params.populate;
     return await this.balanceDetailService.findAllBalanceDetail(
       parsedPopulate,
@@ -31,9 +33,11 @@ export class BalanceDetailController {
   @Get(':id')
   async findBalanceDetailById(
     @Param('id') id: number,
-    @Query() params: string | any,
+    @Query() params: Record<string, string>,
   ): Promise<BalanceDetailEntity> {
-    const parsePopulate: [] = params.populate ? params.populate.split(',') : [];
+    const parsePopulate: string[] = params.populate
+      ? params.populate.split(',')
+      : [];
     delete params.populate;
     return await this.balanceDetailService.findBalanceById(
       id,

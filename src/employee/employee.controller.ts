@@ -17,7 +17,9 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Get()
-  async getEmployees(@Query() params: any): Promise<EmployeeEntity[]> {
+  async getEmployees(
+    @Query() params: Record<string, string>,
+  ): Promise<EmployeeEntity[]> {
     const populate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return await this.employeeService.findAllEmployees(populate, params);
@@ -26,7 +28,7 @@ export class EmployeeController {
   @Get(':id')
   async getEmployee(
     @Param('id') id: number,
-    @Query() params: any,
+    @Query() params: Record<string, string>,
   ): Promise<EmployeeEntity> {
     const populate = params.populate ? params.populate.split(',') : [];
     delete params.populate;

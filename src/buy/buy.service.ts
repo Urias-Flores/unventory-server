@@ -18,7 +18,7 @@ export class BuyService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async findAllBuys(populate: [], filters: object): Promise<BuyEntity[]> {
+  async findAllBuys(populate: string[], filters: object): Promise<BuyEntity[]> {
     try {
       return await this.buyRepository.find({
         relations: populate,
@@ -36,7 +36,7 @@ export class BuyService {
 
   async findBuyById(
     id: number,
-    populate: [],
+    populate: string[],
     filters: object,
   ): Promise<BuyEntity> {
     const filtersWithId = { ...filters, buyId: id };

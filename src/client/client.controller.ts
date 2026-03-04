@@ -17,7 +17,9 @@ export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Get()
-  async findAllClients(@Query() params: string | any): Promise<any> {
+  async findAllClients(
+    @Query() params: Record<string, string>,
+  ): Promise<unknown> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return await this.clientService.findAllClients(parsedPopulate, params);
@@ -26,15 +28,15 @@ export class ClientController {
   @Get(':id')
   async findClientById(
     @Param('id') id: number,
-    @Query() params: string | any,
-  ): Promise<any> {
+    @Query() params: Record<string, string>,
+  ): Promise<unknown> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return await this.clientService.findClientById(id, parsedPopulate, params);
   }
 
   @Post()
-  async createClient(@Body() client: ClientEntity): Promise<any> {
+  async createClient(@Body() client: ClientEntity): Promise<unknown> {
     return await this.clientService.createClient(client);
   }
 

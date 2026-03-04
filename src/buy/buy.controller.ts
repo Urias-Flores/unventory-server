@@ -17,7 +17,9 @@ export class BuyController {
   constructor(private readonly buyService: BuyService) {}
 
   @Get()
-  async findAllBuys(@Query() params: string | any): Promise<BuyEntity[]> {
+  async findAllBuys(
+    @Query() params: Record<string, string>,
+  ): Promise<BuyEntity[]> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return await this.buyService.findAllBuys(parsedPopulate, params);
@@ -26,7 +28,7 @@ export class BuyController {
   @Get(':id')
   async findBuyById(
     @Param('id') id: number,
-    @Query() params: string | any,
+    @Query() params: Record<string, string>,
   ): Promise<BuyEntity> {
     const parsedPopulate = params.populate ? params.populate.split(',') : [];
     delete params.populate;

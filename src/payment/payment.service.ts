@@ -23,7 +23,7 @@ export class PaymentService {
     private readonly datasource: DataSource,
   ) {}
 
-  async findAllPays(populate: [], filters: {}) {
+  async findAllPays(populate: string[], filters: object) {
     try {
       return this.payRepository.find({
         relations: populate,
@@ -42,7 +42,7 @@ export class PaymentService {
     }
   }
 
-  async findPayById(id: number, populate: [], filters: {}) {
+  async findPayById(id: number, populate: string[], filters: object) {
     const filtersWithId = { ...filters, payId: id };
     try {
       return this.payRepository.findOne({

@@ -21,7 +21,9 @@ export class SupplierController {
   ) {}
 
   @Get()
-  async findAllSuppliers(@Query() variables: any): Promise<SupplierEntity[]> {
+  async findAllSuppliers(
+    @Query() variables: Record<string, string>,
+  ): Promise<SupplierEntity[]> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.supplierService.findAllSuppliers(populate, filters);
   }
@@ -29,7 +31,7 @@ export class SupplierController {
   @Get(':id')
   async findSupplierById(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<SupplierEntity> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.supplierService.findAllSupplierById(

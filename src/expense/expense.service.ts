@@ -10,7 +10,10 @@ export class ExpenseService {
     private readonly expenseRepository: Repository<ExpenseEntity>,
   ) {}
 
-  async findAllExpenses(populate: [], filters: {}): Promise<ExpenseEntity[]> {
+  async findAllExpenses(
+    populate: string[],
+    filters: object,
+  ): Promise<ExpenseEntity[]> {
     try {
       return await this.expenseRepository.find({
         relations: populate,
@@ -27,8 +30,8 @@ export class ExpenseService {
 
   async findExpenseById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<ExpenseEntity> {
     const filtersWithId = { ...filters, expenseId: id };
     try {

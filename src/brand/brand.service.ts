@@ -1,12 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { BrandEntity } from './brand.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  DeleteResult,
-  QueryFailedError,
-  Repository,
-  UpdateResult,
-} from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class BrandService {
@@ -15,7 +10,10 @@ export class BrandService {
     private readonly brandRepository: Repository<BrandEntity>,
   ) {}
 
-  async findAllBrands(populate: [], filters: {}): Promise<BrandEntity[]> {
+  async findAllBrands(
+    populate: string[],
+    filters: object,
+  ): Promise<BrandEntity[]> {
     try {
       return await this.brandRepository.find({
         relations: populate,
@@ -35,8 +33,8 @@ export class BrandService {
 
   async findBrandById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<BrandEntity> {
     const filtersWithId = { ...filters, brandId: id };
     try {

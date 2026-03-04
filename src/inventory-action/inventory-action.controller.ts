@@ -20,9 +20,11 @@ export class InventoryActionController {
 
   @Get()
   async findAllInventoryAction(
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<InventoryActionEntity[]> {
-    const populate = variables.populate ? variables.populate.split(',') : [];
+    const populate: string[] = variables.populate
+      ? variables.populate.split(',')
+      : [];
     delete variables.populate;
     return await this.inventoryActionService.findAllInventoryActions(
       populate,
@@ -32,10 +34,12 @@ export class InventoryActionController {
 
   @Get(':id')
   async findInventoryActionById(
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
     @Param('id') id: number,
   ): Promise<InventoryActionEntity> {
-    const populate = variables.populate ? variables.populate.split(',') : [];
+    const populate: string[] = variables.populate
+      ? variables.populate.split(',')
+      : [];
     delete variables.populate;
     return await this.inventoryActionService.findInventoryActionById(
       id,

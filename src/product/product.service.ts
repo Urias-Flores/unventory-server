@@ -14,7 +14,10 @@ export class ProductService {
     private readonly datasource: DataSource,
   ) {}
 
-  async findAllProducts(populate: [], filters: {}): Promise<ProductEntity[]> {
+  async findAllProducts(
+    populate: string[],
+    filters: object,
+  ): Promise<ProductEntity[]> {
     try {
       return await this.productRepository.find({
         relations: populate,
@@ -34,8 +37,8 @@ export class ProductService {
 
   async findProductById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<ProductEntity> {
     const filtersWithId = { ...filters, productId: id };
     try {

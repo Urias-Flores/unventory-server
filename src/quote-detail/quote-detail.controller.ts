@@ -22,7 +22,7 @@ export class QuoteDetailController {
 
   @Get()
   async findAllQuoteDetails(
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<QuoteDetailEntity[]> {
     const { populate, filters } =
       this.utilitiesService.handlePopulate(variables);
@@ -32,7 +32,7 @@ export class QuoteDetailController {
   @Get(':id')
   async findOneQuoteDetail(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<QuoteDetailEntity> {
     const { populate, filters } =
       this.utilitiesService.handlePopulate(variables);

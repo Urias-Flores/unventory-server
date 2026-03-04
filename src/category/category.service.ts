@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from './category.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -11,8 +11,8 @@ export class CategoryService {
   ) {}
 
   async findAllCategories(
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<CategoryEntity[]> {
     try {
       return await this.categoryRepository.find({
@@ -33,8 +33,8 @@ export class CategoryService {
 
   async findCategoryById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<CategoryEntity> {
     const filtersWithId = { ...filters, categoryId: id };
     try {

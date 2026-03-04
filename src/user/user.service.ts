@@ -10,7 +10,10 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async findAllUsers(populate: [], filters: any): Promise<UserEntity[]> {
+  async findAllUsers(
+    populate: string[],
+    filters: object,
+  ): Promise<UserEntity[]> {
     try {
       return await this.userRepository.find({
         relations: populate,
@@ -27,8 +30,8 @@ export class UserService {
 
   async findUserById(
     id: number,
-    populate: [],
-    filters: any,
+    populate: string[],
+    filters: object,
   ): Promise<UserEntity> {
     try {
       return await this.userRepository.findOne({

@@ -17,8 +17,8 @@ export class InventoryActionService {
   ) {}
 
   async findAllInventoryActions(
-    populate: [],
-    filters: any,
+    populate: string[],
+    filters: object,
   ): Promise<InventoryActionEntity[]> {
     try {
       return await this.inventoryActionRepository.find({
@@ -36,8 +36,8 @@ export class InventoryActionService {
 
   async findInventoryActionById(
     id: number,
-    populate: [],
-    filters: any,
+    populate: string[],
+    filters: object,
   ): Promise<InventoryActionEntity> {
     const filtersWithId = { ...filters, inventoryActionId: id };
     try {

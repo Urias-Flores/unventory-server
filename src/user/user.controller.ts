@@ -21,7 +21,9 @@ export class UserController {
   ) {}
 
   @Get()
-  async findAllUsers(@Query() variables: any): Promise<UserEntity[]> {
+  async findAllUsers(
+    @Query() variables: Record<string, string>,
+  ): Promise<UserEntity[]> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.userService.findAllUsers(populate, filters);
   }
@@ -29,7 +31,7 @@ export class UserController {
   @Get(':id')
   async findUserById(
     @Param('id') id: number,
-    @Query() variables: any,
+    @Query() variables: Record<string, string>,
   ): Promise<UserEntity> {
     const { populate, filters } = this.utilities.handlePopulate(variables);
     return await this.userService.findUserById(id, populate, filters);

@@ -17,7 +17,7 @@ export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
 
   @Get()
-  async findAllExpenses(@Query() params: any) {
+  async findAllExpenses(@Query() params: Record<string, string>) {
     const populate = params.populate ? params.populate.split(',') : [];
     delete params.populate;
     return this.expenseService.findAllExpenses(populate, params);
@@ -26,7 +26,7 @@ export class ExpenseController {
   @Get(':id')
   async findOne(
     @Param('id') id: number,
-    @Query() params: any,
+    @Query() params: Record<string, string>,
   ): Promise<ExpenseEntity> {
     const populate = params.populate ? params.populate.split(',') : [];
     delete params.populate;

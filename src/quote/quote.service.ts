@@ -10,7 +10,10 @@ export class QuoteService {
     private readonly quoteRepository: Repository<QuoteEntity>,
   ) {}
 
-  async findAllQuotes(populate: [], filters: {}): Promise<QuoteEntity[]> {
+  async findAllQuotes(
+    populate: string[],
+    filters: object,
+  ): Promise<QuoteEntity[]> {
     try {
       return await this.quoteRepository.find({
         relations: populate,
@@ -27,8 +30,8 @@ export class QuoteService {
 
   async findQuoteById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<QuoteEntity> {
     try {
       const quote = await this.quoteRepository.findOne({

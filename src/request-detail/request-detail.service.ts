@@ -11,8 +11,8 @@ export class RequestDetailService {
   ) {}
 
   async findAllRequestDetails(
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<RequestDetailEntity[]> {
     try {
       return await this.requestRepository.find({
@@ -30,8 +30,8 @@ export class RequestDetailService {
 
   async findRequestDetailById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<RequestDetailEntity> {
     try {
       return await this.requestRepository.findOne({

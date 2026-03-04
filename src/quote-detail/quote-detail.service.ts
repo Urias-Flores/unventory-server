@@ -11,8 +11,8 @@ export class QuoteDetailService {
   ) {}
 
   async findAllQuoteDetails(
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<QuoteDetailEntity[]> {
     try {
       return await this.quoteDetailRepository.find({
@@ -30,8 +30,8 @@ export class QuoteDetailService {
 
   async findQuoteDetailById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<QuoteDetailEntity> {
     try {
       return this.quoteDetailRepository.findOne({

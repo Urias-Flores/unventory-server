@@ -1,4 +1,4 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { EmployeeEntity } from './employee.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,7 +10,10 @@ export class EmployeeService {
     private readonly employeeRepository: Repository<EmployeeEntity>,
   ) {}
 
-  async findAllEmployees(populate: [], filters: {}): Promise<EmployeeEntity[]> {
+  async findAllEmployees(
+    populate: string[],
+    filters: object,
+  ): Promise<EmployeeEntity[]> {
     try {
       return await this.employeeRepository.find({
         relations: populate,
@@ -27,8 +30,8 @@ export class EmployeeService {
 
   async findEmployeeById(
     id: number,
-    populate: [],
-    filters: {},
+    populate: string[],
+    filters: object,
   ): Promise<EmployeeEntity> {
     try {
       const filtersWithId = { ...filters, employeeId: id };
