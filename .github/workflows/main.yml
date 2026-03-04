@@ -1,0 +1,88 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  test_and_build_server:
+    name: Test & Build Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Lint
+        run: |
+          npm run lint
+
+      - name: Test
+        run: |
+          npm run test
+        continue-on-error: true
+
+      - name: Build NestJS API
+        run: |
+          npm run build
+
+      - name: Prepare deployment files
+        run: |
+          mkdir -p deploy_package
+          cp -r dist deploy_package/
+          cp package.json deploy_package/
+          cp package-lock.json deploy_package/
+          cp ecosystem.config.js deploy_package/
+          cat <<EOF > deploy_package/.env
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          EOF
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-build
+          path: ./deploy_package
+          include-hidden-files: true
+
+  deploy_server:
+    name: Deploy Server
+    needs: test_and_build_server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: server-build
+          path: ./deploy
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          known_hosts: unnecessary_due_to_flag
+          if_key_exists: replace
+
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete --timeout=600 \
+            -e "ssh -p ${{ secrets.DO_SSH_PORT }} \
+                -o StrictHostKeyChecking=no \
+                -o ServerAliveInterval=15 \
+                -o ServerAliveCountMax=10" \
+            ./deploy/ ${{ secrets.DO_SSH_USER }}@${{ secrets.DO_SERVER_HOST }}:${{ secrets.DO_API_DIR }}
+
+      - name: Install Production Dependencies and Restart PM2 Service
+        run: |
+          ssh -p ${{ secrets.DO_SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.DO_SSH_USER }}@${{ secrets.DO_SERVER_HOST }} 'cd ${{ secrets.DO_API_DIR }} && npm ci --omit=dev && pm2 start ecosystem.config.js'
