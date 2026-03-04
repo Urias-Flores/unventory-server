@@ -11,7 +11,7 @@ export class SupplierService {
   ) {}
 
   async findAllSuppliers(
-    populate: [],
+    populate: string[],
     filters: object,
   ): Promise<SupplierEntity[]> {
     try {
@@ -28,7 +28,7 @@ export class SupplierService {
 
   async findAllSupplierById(
     id: number,
-    populate: [],
+    populate: string[],
     filters: object,
   ): Promise<SupplierEntity> {
     try {
