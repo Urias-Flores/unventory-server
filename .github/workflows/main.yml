@@ -2,7 +2,7 @@ name: Deploy to DigitalOcean
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   test_and_build_server:
@@ -15,7 +15,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install dependencies
         run: |
@@ -38,9 +38,11 @@ jobs:
         run: |
           mkdir -p deploy_package
           cp -r dist deploy_package/
+          cp -r public deploy_package/
           cp package.json deploy_package/
           cp package-lock.json deploy_package/
           cp ecosystem.config.js deploy_package/
+
           cat <<EOF > deploy_package/.env
           DB_HOST=${{ secrets.DB_HOST }}
           DB_PORT=${{ secrets.DB_PORT }}
