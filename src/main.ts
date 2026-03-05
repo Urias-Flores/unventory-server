@@ -8,7 +8,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Serve public/ folder as static assets (status.css, etc.)
-  app.useStaticAssets(join(process.cwd(), 'public'));
+  // __dirname = dist/ at runtime, so we go up one level to reach the project root
+  const publicPath = join(__dirname, '..', 'public');
+  app.useStaticAssets(publicPath);
 
   // Serve the status HTML page at /status via Express middleware.
   // This must be declared BEFORE the global prefix so it doesn't conflict.
@@ -16,7 +18,7 @@ async function bootstrap() {
   httpAdapter.get(
     '/status',
     (_req, res: { sendFile: (path: string) => void }) => {
-      res.sendFile(join(process.cwd(), 'public', 'status.html'));
+      res.sendFile(join(publicPath, 'status.html'));
     },
   );
 
