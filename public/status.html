@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unventory — Service Status</title>
+    <meta
+      name="description"
+      content="Real-time health and status dashboard for the Unventory API services."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/status.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- ——— Header ——— -->
+      <header>
+        <div class="header-left">
+          <h1>⬡ Unventory Status</h1>
+          <p>Real-time monitoring for all services</p>
+        </div>
+        <div class="header-right">
+          <span class="refresh-info">Auto-refreshes every 10s</span>
+          <span class="last-updated" id="last-updated">Connecting…</span>
+        </div>
+      </header>
+
+      <!-- ——— Overall banner ——— -->
+      <div class="status-banner" id="overall-banner">
+        <div class="banner-dot loading" id="banner-dot"></div>
+        <div class="banner-text">
+          <strong id="banner-title">Checking system status…</strong>
+          <span id="banner-subtitle"
+            >Please wait while we fetch health information.</span
+          >
+        </div>
+      </div>
+
+      <!-- ——— Service Cards ——— -->
+      <p class="section-title">Services</p>
+      <div class="cards-grid" id="cards-grid">
+        <!-- API Card -->
+        <div class="card fade-in" id="card-api">
+          <div class="card-header">
+            <div class="card-icon blue">🚀</div>
+            <span class="badge loading" id="badge-api">
+              <span class="badge-dot"></span> Checking
+            </span>
+          </div>
+          <p class="card-title">API Server</p>
+          <div class="card-stats">
+            <div class="stat-row">
+              <span class="stat-label">Service</span>
+              <span class="stat-value highlight" id="api-name"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Version</span>
+              <span class="stat-value" id="api-version"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Environment</span>
+              <span class="stat-value" id="api-env"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Database Card -->
+        <div class="card fade-in" id="card-db" style="animation-delay: 0.08s">
+          <div class="card-header">
+            <div class="card-icon green">🗄️</div>
+            <span class="badge loading" id="badge-db">
+              <span class="badge-dot"></span> Checking
+            </span>
+          </div>
+          <p class="card-title">PostgreSQL Database</p>
+          <div class="card-stats">
+            <div class="stat-row">
+              <span class="stat-label">Status</span>
+              <span class="stat-value" id="db-status"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Host</span>
+              <span class="stat-value" id="db-host"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Database</span>
+              <span class="stat-value highlight" id="db-name"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Port</span>
+              <span class="stat-value" id="db-port"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Uptime Card -->
+        <div
+          class="card fade-in"
+          id="card-uptime"
+          style="animation-delay: 0.16s"
+        >
+          <div class="card-header">
+            <div class="card-icon blue">⏱️</div>
+          </div>
+          <p class="card-title">Uptime</p>
+          <p class="uptime-value" id="uptime-display">—</p>
+          <div class="card-stats" style="margin-top: 16px">
+            <div class="stat-row">
+              <span class="stat-label">Started</span>
+              <span class="stat-value" id="started-at"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Server Time</span>
+              <span class="stat-value" id="server-time"
+                ><span class="skeleton"></span
+              ></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Service (future) -->
+        <div class="add-card fade-in" style="animation-delay: 0.24s">
+          <span class="plus">＋</span>
+          <span>Add another service</span>
+        </div>
+      </div>
+      <!-- /cards-grid -->
+
+      <p class="error-msg" id="error-msg">
+        ⚠️ Could not reach the API. Check your network or the server status.
+      </p>
+
+      <footer>
+        Unventory Server &nbsp;·&nbsp;
+        <a href="/api/status" target="_blank">Raw JSON</a> &nbsp;·&nbsp;
+        <a href="/api/docs" target="_blank">API Docs</a>
+      </footer>
+    </div>
+    <!-- /container -->
+
+    <script>
+      const API_URL = '/api/status';
+      let startedAt = null;
+      let uptimeBase = 0;
+      let uptimeTimer = null;
+
+      function setBadge(el, status) {
+        const map = {
+          ok: { cls: 'ok', label: 'Online' },
+          connected: { cls: 'connected', label: 'Connected' },
+          disconnected: { cls: 'disconnected', label: 'Disconnected' },
+          error: { cls: 'error', label: 'Error' },
+          loading: { cls: 'loading', label: 'Checking' },
+        };
+        const def = map[status] ?? map.loading;
+        el.className = `badge ${def.cls}`;
+        el.innerHTML = `<span class="badge-dot"></span> ${def.label}`;
+      }
+
+      function formatUptime(seconds) {
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = Math.floor(seconds % 60);
+        const parts = [];
+        if (h > 0) parts.push(`${h}h`);
+        if (m > 0) parts.push(`${m}m`);
+        parts.push(`${s}s`);
+        return parts.join(' ');
+      }
+
+      function formatDate(iso) {
+        const d = new Date(iso);
+        return d.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        });
+      }
+
+      function startLiveUptime(baseSeconds) {
+        if (uptimeTimer) clearInterval(uptimeTimer);
+        uptimeBase = baseSeconds;
+        const started = Date.now();
+        function tick() {
+          const elapsed = (Date.now() - started) / 1000;
+          document.getElementById('uptime-display').textContent = formatUptime(
+            uptimeBase + elapsed,
+          );
+        }
+        tick();
+        uptimeTimer = setInterval(tick, 1000);
+      }
+
+      async function fetchStatus() {
+        const errorEl = document.getElementById('error-msg');
+        try {
+          const res = await fetch(API_URL);
+          if (!res.ok) throw new Error('Non-OK response');
+          const data = await res.json();
+
+          errorEl.style.display = 'none';
+
+          // Banner
+          const banner = document.getElementById('overall-banner');
+          const dot = document.getElementById('banner-dot');
+          const allOk =
+            data.status === 'ok' && data.database.status === 'connected';
+          banner.className = `status-banner ${allOk ? 'status-ok' : 'status-error'}`;
+          dot.className = `banner-dot ${allOk ? 'ok' : 'error'}`;
+          document.getElementById('banner-title').textContent = allOk
+            ? '✓ All systems operational'
+            : '⚠ One or more services need attention';
+          document.getElementById('banner-subtitle').textContent = allOk
+            ? 'API and database are running without issues.'
+            : 'Check the cards below for more details.';
+
+          // API card
+          setBadge(
+            document.getElementById('badge-api'),
+            data.status === 'ok' ? 'ok' : 'error',
+          );
+          document.getElementById('api-name').textContent = data.service;
+          document.getElementById('api-version').textContent =
+            `v${data.version}`;
+          document.getElementById('api-env').textContent =
+            document.location.hostname === 'localhost'
+              ? 'Development'
+              : 'Production';
+
+          // DB card
+          setBadge(document.getElementById('badge-db'), data.database.status);
+          document.getElementById('db-status').textContent =
+            data.database.status.charAt(0).toUpperCase() +
+            data.database.status.slice(1);
+          document.getElementById('db-host').textContent = data.database.host;
+          document.getElementById('db-name').textContent = data.database.name;
+          document.getElementById('db-port').textContent = data.database.port;
+
+          // Uptime
+          if (!startedAt) {
+            const now = new Date(data.timestamp);
+            const s = new Date(now.getTime() - data.uptime * 1000);
+            startedAt = s.toISOString();
+          }
+          document.getElementById('started-at').textContent =
+            formatDate(startedAt);
+          document.getElementById('server-time').textContent = formatDate(
+            data.timestamp,
+          );
+          startLiveUptime(data.uptime);
+
+          // Last updated
+          document.getElementById('last-updated').textContent =
+            `Updated ${new Date().toLocaleTimeString()}`;
+        } catch (err) {
+          console.error('Status fetch error:', err);
+          errorEl.style.display = 'block';
+          document.getElementById('overall-banner').className =
+            'status-banner status-error';
+          document.getElementById('banner-dot').className = 'banner-dot error';
+          document.getElementById('banner-title').textContent =
+            '✗ Unable to reach the API';
+          document.getElementById('banner-subtitle').textContent =
+            'The server may be down or unreachable.';
+          setBadge(document.getElementById('badge-api'), 'error');
+          setBadge(document.getElementById('badge-db'), 'error');
+        }
+      }
+
+      fetchStatus();
+      setInterval(fetchStatus, 10_000);
+    </script>
+  </body>
+</html>
