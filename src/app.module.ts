@@ -56,6 +56,7 @@ import { SaleDetailEntity } from './sale-detail/sale-detail.entity';
 import { SupplierEntity } from './supplier/supplier.entity';
 import { InventoryActionEntity } from './inventory-action/inventory-action.entity';
 import { UtilitiesModule } from './_utilities/_utilities.module';
+import { StatusModule } from './status/status.module';
 
 @Module({
   imports: [
@@ -123,6 +124,7 @@ import { UtilitiesModule } from './_utilities/_utilities.module';
     SupplierModule,
     UserModule,
     UtilitiesModule,
+    StatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],
