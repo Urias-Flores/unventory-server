@@ -3,6 +3,22 @@
   "main": "worker.mjs",
   "compatibility_date": "2025-09-01",
   "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true
+    },
+    "issue_detection": {
+      "enabled": true
+    }
+  },
   "alias": {
     "class-transformer/storage": "class-transformer/cjs/storage.js",
     "@nestjs/microservices": "./stubs/empty.js",
