@@ -1,4 +1,12 @@
-import { httpServerHandler } from 'cloudflare:node';
-import './dist/worker-bootstrap.js';
+import { handleAsNodeRequest } from 'cloudflare:node';
+import { bootstrap } from './dist/worker-bootstrap.js';
 
-export default httpServerHandler({ port: 3000 });
+let ready;
+
+export default {
+  async fetch(request, env, ctx) {
+    ready ??= bootstrap(); 
+    await ready;
+    return handleAsNodeRequest(3000, request);
+  },
+};
