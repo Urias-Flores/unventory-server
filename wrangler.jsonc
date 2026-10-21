@@ -8,6 +8,7 @@
     "@nestjs/microservices": "./stubs/empty.js",
     "@nestjs/microservices/microservices-module": "./stubs/empty.js",
     "@nestjs/websockets/socket-module": "./stubs/empty.js",
+    "app-root-path": "./stubs/app-root-path.js",
     "cache-manager": "./stubs/empty.js"
   }
 }
