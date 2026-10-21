@@ -96,7 +96,7 @@ import { StatusModule } from './status/status.module';
           UserEntity,
         ],
         synchronize: true,
-        ssl: false,
+        ssl: true,
       }),
       inject: [ConfigService],
     }),
