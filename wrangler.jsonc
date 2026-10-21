@@ -1,6 +1,13 @@
 {
   "name": "unventory-server",
-  "main": "dist/worker.js",
+  "main": "worker.mjs",
   "compatibility_date": "2025-09-01",
-  "compatibility_flags": ["nodejs_compat"]
+  "compatibility_flags": ["nodejs_compat"],
+  "alias": {
+    "class-transformer/storage": "class-transformer/cjs/storage.js",
+    "@nestjs/microservices": "./stubs/empty.js",
+    "@nestjs/microservices/microservices-module": "./stubs/empty.js",
+    "@nestjs/websockets/socket-module": "./stubs/empty.js",
+    "cache-manager": "./stubs/empty.js"
+  }
 }
